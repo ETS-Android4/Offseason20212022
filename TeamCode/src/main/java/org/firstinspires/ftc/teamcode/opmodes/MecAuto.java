@@ -12,4 +12,5 @@ public class MecAuto extends LinearOpMode {
     public void runOpMode() {
 
     }
+
 }
