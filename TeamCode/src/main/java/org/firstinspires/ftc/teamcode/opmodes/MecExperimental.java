@@ -14,19 +14,24 @@ public class MecExperimental extends LinearOpMode{
         DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
         DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
 
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         waitForStart();
 
         //if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            double y = gamepad1.right_stick_x; // Remember, this is reversed!
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double r = gamepad1.left_stick_y;
+            double r = -gamepad1.right_stick_x; // Remember, this is reversed!
+            double x = gamepad1.dpad_left ? -1 : gamepad1.dpad_right ? 1 : 0; // Counteract imperfect strafing
+            double y = gamepad1.dpad_down ? 1 : gamepad1.dpad_up ? -1 : 0; // google if statement ternery operator if ? and : confusing
 
-            motorFrontLeft.setPower(y + x + r);
-            motorBackLeft.setPower(y - x + r);
-            motorFrontRight.setPower(y - x - r);
-            motorBackRight.setPower(y + x - r);
+            motorFrontLeft.setPower(r + x + y);
+            motorBackLeft.setPower(r - x + y);
+            motorFrontRight.setPower(r - x - y);
+            motorBackRight.setPower(r + x - y);
 
         }
     }

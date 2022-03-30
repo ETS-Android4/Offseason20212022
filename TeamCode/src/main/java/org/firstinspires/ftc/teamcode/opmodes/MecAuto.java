@@ -10,7 +10,7 @@ public class MecAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
+        
     }
 
 }
