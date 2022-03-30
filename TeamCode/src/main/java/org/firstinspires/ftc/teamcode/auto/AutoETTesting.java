@@ -7,10 +7,10 @@ import androidx.annotation.RequiresApi;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.robot_components.robot.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +19,8 @@ import java.util.List;
 public class AutoETTesting extends LinearOpMode {
 
     Robot robot;
-    HardwareMap hardwareMap;
-    Telemetry telemetry;
+//    HardwareMap hardwareMap;
+//    Telemetry telemetry;
 
     @Override
     public void runOpMode() {
@@ -35,7 +35,5 @@ public class AutoETTesting extends LinearOpMode {
         while(opModeIsActive()){
 
         }
-
-
     }
 }
