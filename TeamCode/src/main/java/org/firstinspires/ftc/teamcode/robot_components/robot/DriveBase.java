@@ -128,9 +128,4 @@ public class DriveBase {
         addTelemetryData();
     }
 
-    // Makes the robot wait (i.e. do nothing) for a specified number of seconds
-    public void wait(double seconds) {
-        double start = elapsedSecs();
-        while (elapsedSecs() - start < seconds) {}
-    }
 }
