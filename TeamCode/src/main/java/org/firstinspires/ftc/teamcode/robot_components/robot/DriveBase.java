@@ -81,16 +81,6 @@ public class DriveBase {
         telemetry.update();
     }
 
-    // Returns true if any of the drive motors are running
-    public boolean driveMotorsRunning() {
-        return (leftFrontPower != 0 || rightFrontPower != 0 || leftRearPower != 0 || rightRearPower != 0);
-    }
-
-
-    // Returns how many seconds have passed since the timer was last reset
-    public double elapsedSecs() {
-        return elapsedTime.seconds();
-    }
 
     // Finds the current battery voltage
     public double getBatteryVoltage() {
@@ -103,29 +93,12 @@ public class DriveBase {
         return result;
     }
 
-
-    // Sends power to drive motors
-    public void sendDrivePowers() {
-        leftFrontDrive.setPower(leftFrontPower);
-        rightFrontDrive.setPower(rightFrontPower);
-        leftRearDrive.setPower(leftRearPower);
-        rightRearDrive.setPower(rightRearPower);
-    }
-
     // Sets speed to desired value
     public void setDriveSpeed(double speed) {
         this.speed = speed;
+        leftFrontDrive.setPower(speed);
+        rightFrontDrive.setPower(speed);
+        leftRearDrive.setPower(speed);
+        rightRearDrive.setPower(speed);
     }
-
-    // Toggles the drive speed between 60% and normal
-    public void toggleSpeed() {
-        speed = (speed == 1 ? 0.6 : 1);
-    }
-
-    // Displays telemetry values and updates the powers being sent to the drive motors
-    public void updateDrive() {
-        sendDrivePowers();
-        addTelemetryData();
-    }
-
 }

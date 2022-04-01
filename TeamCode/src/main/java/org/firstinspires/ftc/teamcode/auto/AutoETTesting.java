@@ -35,15 +35,16 @@ public class AutoETTesting extends LinearOpMode {
 
         runtime.reset();
         while(opModeIsActive()){
-            if (runtime.seconds() == 5)
+            if (runtime.seconds() >= 5 && runtime.seconds() <= 10)
                 robot.setDriveSpeed(.5);
-            if(runtime.seconds() >= 10)
+
                 robot.setDriveSpeed(0);
 
 
             telemetry.addData( "Timer:", runtime.milliseconds());
             telemetry.addData( "Timer:", runtime.seconds());
             telemetry.update();
+
         }
     }
 }
