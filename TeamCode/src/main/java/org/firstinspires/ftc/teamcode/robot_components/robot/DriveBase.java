@@ -101,4 +101,11 @@ public class DriveBase {
         leftRearDrive.setPower(speed);
         rightRearDrive.setPower(speed);
     }
+    public void turnRight(double speed) {
+        this.speed = speed;
+        leftFrontDrive.setPower(speed);
+        rightFrontDrive.setPower(-speed);
+        leftRearDrive.setPower(speed);
+        rightRearDrive.setPower(-speed);
+    }
 }

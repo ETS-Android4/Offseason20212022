@@ -20,7 +20,9 @@ import java.util.List;
 @Autonomous
 public class AutoETTesting extends LinearOpMode {
 
+    //Remember to make the Robot class and make Robot robot import from that one
     Robot robot;
+
     public ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -33,16 +35,25 @@ public class AutoETTesting extends LinearOpMode {
         // Waiting for driver to hit PLAY
         waitForStart();
 
+        //resets the timer everytime before starting the auto
         runtime.reset();
-        while(opModeIsActive()){
-            if (runtime.seconds() >= 5 && runtime.seconds() <= 10)
-                robot.setDriveSpeed(.5);
 
+        while(opModeIsActive()){
+            //got tired of writing runtime.seconds(); :/
+            double sec = runtime.seconds();
+
+            //a basic timed turn
+            if ((sec >= 3 && sec <= 5) || (sec >= 6 && sec <= 7.2))
+                robot.setDriveSpeed(.83);
+            if (sec > 5 && sec <= 6)
+                robot.turnRight(.83);
                 robot.setDriveSpeed(0);
 
 
             telemetry.addData( "Timer:", runtime.milliseconds());
             telemetry.addData( "Timer:", runtime.seconds());
+
+            //updates telemetry, don't forget next time
             telemetry.update();
 
         }
