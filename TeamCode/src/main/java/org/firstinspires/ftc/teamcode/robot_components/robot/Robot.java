@@ -20,6 +20,14 @@ public class Robot extends DriveBase {
         super(hardwareMap, telemetry); // Calls the DriveBase constructor, which handles drive motors
     }
 
+    public void turnRight(double speed) {
+        this.speed = speed;
+        leftFrontDrive.setPower(speed);
+        rightFrontDrive.setPower(-speed);
+        leftRearDrive.setPower(speed);
+        rightRearDrive.setPower(-speed);
+    }
+
     /**
      * Toggle the extension between extended to a given length or retracted. Expects extenderMotor
      * to be set up properly with RunMode.RUN_TO_POSITION.
