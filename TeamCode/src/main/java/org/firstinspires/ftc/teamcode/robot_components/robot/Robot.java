@@ -28,6 +28,22 @@ public class Robot extends DriveBase {
         rightRearDrive.setPower(-speed);
     }
 
+    public void turnLeft(double speed) {
+        this.speed = speed;
+        leftFrontDrive.setPower(-speed);
+        rightFrontDrive.setPower(speed);
+        leftRearDrive.setPower(-speed);
+        rightRearDrive.setPower(speed);
+    }
+
+    public void turn(double speed) {
+        this.speed = speed;
+        leftFrontDrive.setPower(speed);
+        rightFrontDrive.setPower(-leftFrontPower);
+        leftRearDrive.setPower(speed);
+        rightRearDrive.setPower(-leftRearPower);
+    }
+
     /**
      * Toggle the extension between extended to a given length or retracted. Expects extenderMotor
      * to be set up properly with RunMode.RUN_TO_POSITION.

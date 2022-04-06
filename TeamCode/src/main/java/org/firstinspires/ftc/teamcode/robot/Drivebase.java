@@ -40,5 +40,10 @@ public class Drivebase {
         leftRearDrive = hardwareMap.get(DcMotor.class, "leftRearDrive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "rightRearDrive");
 
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRearDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 }

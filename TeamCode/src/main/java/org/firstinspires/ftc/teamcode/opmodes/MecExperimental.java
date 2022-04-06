@@ -5,39 +5,39 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.input.Btn;
+import org.firstinspires.ftc.teamcode.input.Controller;
+import org.firstinspires.ftc.teamcode.robot_components.robot.Robot;
 
 @TeleOp
 public class MecExperimental extends LinearOpMode{
 
     BNO055IMU imu;
     Orientation angles;
+    Robot robot;
+    Controller controller1;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
+        robot = new Robot(hardwareMap, telemetry);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+        controller1 = new Controller(gamepad1); // Whoever presses start + a
 
-        DcMotor motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
-        DcMotor motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
-        DcMotor motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
-        DcMotor motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
         waitForStart();
-
+        controller1.update();
         //if (isStopRequested()) return;
 
         while (opModeIsActive()) {
@@ -49,14 +49,20 @@ public class MecExperimental extends LinearOpMode{
             telemetry.update();
 
             //drive controls
-            double r = -gamepad1.right_stick_x; // Remember, this is reversed!
-            double x = gamepad1.dpad_left ? -1 : gamepad1.dpad_right ? 1 : 0; // Counteract imperfect strafing
-            double y = gamepad1.dpad_down ? 1 : gamepad1.dpad_up ? -1 : 0; // google if statement ternery operator if ? and : confusing
+            double r = -controller1.right_stick_x; // Remember, this is reversed!
+            double x = controller1.left_stick_x; // Counteract imperfect strafing
+            double y = controller1.left_stick_y; // google if statement ternery operator if ? and : confusing
+            telemetry.addData("rightstick", controller1.right_stick_x);
 
-            motorFrontLeft.setPower(r + x + y);
-            motorBackLeft.setPower(r - x + y);
-            motorFrontRight.setPower(r - x - y);
-            motorBackRight.setPower(r + x - y);
+            robot.leftFrontDrive.setPower(r + x + y);
+            robot.leftRearDrive.setPower(r - x + y);
+            robot.rightFrontDrive.setPower(r - x - y);
+            robot.rightRearDrive.setPower(r + x - y);
+
+            boolean goSpin = controller1.a == (Btn.PRESSED);
+            if (goSpin){
+                robot.turn(1);
+            }
 
         }
     }
