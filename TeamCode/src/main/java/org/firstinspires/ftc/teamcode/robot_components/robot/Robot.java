@@ -39,9 +39,9 @@ public class Robot extends DriveBase {
     public void turn(double speed) {
         this.speed = speed;
         leftFrontDrive.setPower(speed);
-        rightFrontDrive.setPower(-leftFrontPower);
+        rightFrontDrive.setPower(-speed);
         leftRearDrive.setPower(speed);
-        rightRearDrive.setPower(-leftRearPower);
+        rightRearDrive.setPower(-speed);
     }
 
     /**

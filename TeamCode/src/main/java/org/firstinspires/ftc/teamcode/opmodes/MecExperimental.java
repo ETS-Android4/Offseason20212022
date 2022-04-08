@@ -37,10 +37,11 @@ public class MecExperimental extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
-        controller1.update();
+
         //if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+            controller1.update();
             //gyro
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             telemetry.addData("Heading", angles.firstAngle);
@@ -49,9 +50,9 @@ public class MecExperimental extends LinearOpMode{
             telemetry.update();
 
             //drive controls
-            double r = -controller1.right_stick_x; // Remember, this is reversed!
-            double x = controller1.left_stick_x; // Counteract imperfect strafing
-            double y = controller1.left_stick_y; // google if statement ternery operator if ? and : confusing
+            double r = controller1.left_stick_x; // Remember, this is reversed!
+            double x = -controller1.left_stick_y; // Counteract imperfect strafing
+            double y = controller1.right_stick_x; // google if statement ternery operator if ? and : confusing
             telemetry.addData("rightstick", controller1.right_stick_x);
 
             robot.leftFrontDrive.setPower(r + x + y);
