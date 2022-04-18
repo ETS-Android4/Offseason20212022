@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous
-public class AutoETTesting extends LinearOpMode {
+public class AutoGyroTesting extends LinearOpMode {
 
     Robot robot;
 //    HardwareMap hardwareMap;
@@ -37,24 +37,26 @@ public class AutoETTesting extends LinearOpMode {
         //resets the timer everytime before starting the auto
         runtime.reset();
 
-        while(opModeIsActive()){
-            //got tired of writing runtime.seconds(); :/
-            double sec = runtime.seconds();
+        start();
+        //got tired of writing runtime.seconds(); :/
+        double sec = runtime.seconds();
 
-            //a basic timed turn
-            if ((sec >= 3 && sec <= 5) || (sec >= 6 && sec <= 7.2))
-                robot.setDriveSpeed(.83);
-            if (sec > 5 && sec <= 6)
-                robot.turnRight(.83);
-            robot.setDriveSpeed(0);
+        //a basic timed turn
+        try {
+            wait(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        robot.calculateDrivePower(1,1,0);
 
-
-            telemetry.addData( "Timer:", runtime.milliseconds());
-            telemetry.addData( "Timer:", runtime.seconds());
+        while (opModeIsActive()) {
+            telemetry.addData("Timer:", runtime.milliseconds());
+            telemetry.addData("Timer:", runtime.seconds());
 
             //updates telemetry, don't forget next time
             telemetry.update();
-
         }
+        stop();
+
     }
 }

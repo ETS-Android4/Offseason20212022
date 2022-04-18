@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -12,7 +13,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 // Contains all of the motors/servos/sensors specific to this year's challenge
 public class Robot extends DriveBase {
 
-    // Robot variables and objects
 
     // Constructs a robot with the mechanical functions specific to this year's competition
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {

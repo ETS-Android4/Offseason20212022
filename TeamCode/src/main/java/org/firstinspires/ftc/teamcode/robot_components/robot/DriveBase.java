@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 // Contains the basic code for a mecanum wheel drive base; should be extended by a child Robot class
 public class DriveBase {
 
+    public ElapsedTime runtime = new ElapsedTime();
     // Motor powers
     protected double leftFrontPower = 0;
     protected double rightFrontPower = 0;
@@ -25,7 +26,6 @@ public class DriveBase {
     // For meta-drive
     // Specifies the direction of meta mode
     // 90 degrees is optimal for when the driver is standing on side of field
-    public int metaOffset = 90;
 
     // Mecanum wheel drive motors
     public DcMotor leftFrontDrive;
@@ -64,12 +64,6 @@ public class DriveBase {
 
         // Initializes telemetry
         this.telemetry = telemetry;
-
-        // For keeping track of time
-        elapsedTime = new ElapsedTime();
-        elapsedTime.reset();
-
-        batteryVoltage = getBatteryVoltage();
     }
 
     // Displays drive motor powers on the DS phone
@@ -81,56 +75,26 @@ public class DriveBase {
         telemetry.update();
     }
 
-    // Returns true if any of the drive motors are running
-    public boolean driveMotorsRunning() {
-        return (leftFrontPower != 0 || rightFrontPower != 0 || leftRearPower != 0 || rightRearPower != 0);
+    public void calculateDrivePower(double x, double y, double r){
+        rightFrontPower = y - x + r;
+        rightRearPower = y + x - r;
+        leftFrontPower = y - x - r;
+        leftRearPower = y + x + r;
+
+        sendDrivePower(rightFrontPower, rightRearPower, leftFrontPower, leftRearPower);
     }
 
-
-    // Returns how many seconds have passed since the timer was last reset
-    public double elapsedSecs() {
-        return elapsedTime.seconds();
+    public void sendDrivePower(double rf, double rr, double lf, double lr){
+        rightFrontDrive.setPower(rf);
+        rightRearDrive.setPower(rr);
+        leftFrontDrive.setPower(lf);
+        leftRearDrive.setPower(lr);
     }
 
-    // Finds the current battery voltage
-    public double getBatteryVoltage() {
-        double result = Double.POSITIVE_INFINITY;
-        for (VoltageSensor sensor : hardwareMap.voltageSensor) {
-            double voltage = sensor.getVoltage();
-            if (voltage > 0) { result = Math.min(result, voltage);
-            }
+    public void wait(double howLong){
+        runtime.reset();
+        while (runtime.milliseconds() <= howLong){
+            calculateDrivePower(0,0,0);
         }
-        return result;
-    }
-
-
-    // Sends power to drive motors
-    public void sendDrivePowers() {
-        leftFrontDrive.setPower(leftFrontPower);
-        rightFrontDrive.setPower(rightFrontPower);
-        leftRearDrive.setPower(leftRearPower);
-        rightRearDrive.setPower(rightRearPower);
-    }
-
-    // Sets speed to desired value
-    public void setDriveSpeed(double speed) {
-        this.speed = speed;
-    }
-
-    // Toggles the drive speed between 60% and normal
-    public void toggleSpeed() {
-        speed = (speed == 1 ? 0.6 : 1);
-    }
-
-    // Displays telemetry values and updates the powers being sent to the drive motors
-    public void updateDrive() {
-        sendDrivePowers();
-        addTelemetryData();
-    }
-
-    // Makes the robot wait (i.e. do nothing) for a specified number of seconds
-    public void wait(double seconds) {
-        double start = elapsedSecs();
-        while (elapsedSecs() - start < seconds) {}
     }
 }
